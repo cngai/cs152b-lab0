@@ -15,7 +15,7 @@ begin
   if(CLR == 0)
     Q <= 0;
   else begin
-    if(LOAD == 1)
+    if(LOAD == 1 && ENABLE == 1)
       Q <= D;
     else if(ENABLE == 1 && UP == 0) begin
       if(Q == 0) begin
