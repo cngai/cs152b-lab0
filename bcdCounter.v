@@ -1,3 +1,4 @@
+// CS152B - Lab0 - Part1
 module bcdCounter(D, CLK, CLR, ENABLE, LOAD, UP, Q, CO);
 
 input[3:0] D;
@@ -7,13 +8,16 @@ output CO;
 reg ctemp;
 
 initial begin
-  Q = 0;
+  Q <= 4'b0000;
+  ctemp <= 0;  
 end
 
-always @(posedge CLK, CLR)
+always @(posedge CLK, negedge CLR)
 begin
-  if(CLR == 0)
+  if(CLR == 0) begin
     Q <= 0;
+    ctemp <= 0;
+  end
   else begin
     if(LOAD == 1 && ENABLE == 1)
       Q <= D;
