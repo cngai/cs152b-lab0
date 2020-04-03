@@ -61,7 +61,30 @@ module mult_3(
   two_bit_adder tb3(.a(even_sum_initial), .b(even_0), .sum(even_sum), .carry(c_temp));
 
   // Make sure odd_sum and even_sum are equal
-  assign out = (~ (odd_sum[1]^even_sum[1])) && (~ (odd_sum[0]^even_sum[0]));
+  wire diff_zero;
+  assign diff_zero = (~ (odd_sum[1]^even_sum[1])) && (~ (odd_sum[0]^even_sum[0]));
+
+  // Check if odd_sum and even_sum diff = 3
+  wire diff_three;
+  wire [1:0] inv_odd_sum;
+  assign inv_odd_sum[1] = ~ odd_sum[1];
+  assign inv_odd_sum[0] = ~ odd_sum[0];
+  
+  wire [1:0] temp_diff;
+  wire [1:0] neg_odd_sum;
+  wire [1:0] add_bit;
+  wire carry;
+  assign add_bit = 2'b01;
+
+  two_bit_adder tb4(.a(even_sum), .b(inv_odd_sum), .sum(temp_diff), .carry(carry));
+  two_bit_adder tb5(.a(temp_diff), .b(add_bit), .sum(neg_odd_sum), .carry(c_temp));
+
+  wire [1:0] three;
+  assign three = 2'b11;
+
+  assign diff_three = (~ (neg_odd_sum[1]^three[1])) && (~ (neg_odd_sum[0]^three[0])) && carry;
+
+  assign out = diff_zero || diff_three;    
 
 endmodule
 
