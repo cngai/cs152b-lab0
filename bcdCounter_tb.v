@@ -1,3 +1,4 @@
+// CS152B - Lab0 - Part1 - Testbench
 `timescale 1ns / 1ns
 module bcdCounter_tb();
 
